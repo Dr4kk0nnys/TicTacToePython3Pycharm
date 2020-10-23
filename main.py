@@ -1,8 +1,8 @@
 from exceptions import IncorrectUsageException
+from debug import debug_function
 
 
 # TODO: Implement the winning / loosing logic
-# TODO: Implement the switch player logic
 # TODO: Debug and clean the code
 
 # Initialize the field
@@ -80,6 +80,28 @@ def get_player(player_count):
     return players[1]
 
 
+def did_player_win(player):
+    score = 0
+
+    # horizontal
+    for i in range(len(field)):
+        if field[i] == player:
+            score += 1
+            # debug_function(f'{score}:{player}')
+
+        if score >= 3:
+            return True
+
+        if (i + 1) % 3 == 0:
+            score = 0
+
+    # vertical
+
+
+    # crossed
+    return False
+
+
 if __name__ == '__main__':
 
     initialize_field(field)
@@ -90,6 +112,10 @@ if __name__ == '__main__':
         # -1 allows the user to play with 1 ~ 9 index
         field[int(user_input) - 1] = get_player(count)
 
-        count += 1
-
         draw_field(field)
+
+        if did_player_win(get_player(count)):
+            print(f'Player {get_player(count)} won!!!')
+            break
+
+        count += 1
