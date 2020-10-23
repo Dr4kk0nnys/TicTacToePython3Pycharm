@@ -95,10 +95,40 @@ def did_player_win(player):
         if (i + 1) % 3 == 0:
             score = 0
 
+    score = 0
+    j = 0
     # vertical
+    for i in range(len(field)):
+        # debug_function(j)
 
+        if field[j] == player:
+            score += 1
+
+        if score >= 3:
+            return True
+
+        if (i + 1) % 3 == 0:
+            score = 0
+
+            # 5 is the coefficient of the difference of the last number to the first of each line
+            # 0 | 1 | 2    1. Difference between 6 (first column, last row) and 1 (second column, first row)
+            # 3 | 4 | 5       is 5 ( 6 - 1 = 5 )
+            # 6 | 7 | 8    2. Difference between 7 (second column, last row) and 2 (third column, first row)
+            j -= 5          # is 5 ( 7 - 2 = 5 )
+
+            continue
+
+        j += 3
 
     # crossed
+    if field[0] == player and field[4] == player and field[8] == player:
+        return True
+    if field[2] == player and field[4] == player and field[8] == player:
+        return True
+
+    field.index(' ')
+
+    # no empty values anymore
     return False
 
 
@@ -114,8 +144,12 @@ if __name__ == '__main__':
 
         draw_field(field)
 
-        if did_player_win(get_player(count)):
-            print(f'Player {get_player(count)} won!!!')
+        try:
+            if did_player_win(get_player(count)):
+                print(f'Player {get_player(count)} won!!!')
+                break
+        except ValueError:
+            print('No one won!!!')
             break
 
         count += 1
